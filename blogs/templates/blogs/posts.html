@@ -1,0 +1,27 @@
+{% extends "blogs/base.html" %}
+
+{% block page_header %}
+    <h1>Posts:</h1>
+{% endblock page_header %}
+
+
+{% block content %}
+    <h3><a href="{% url 'blogs:new_post' %}">Add a new post</a></h3>
+
+    <ul>
+        {% for post in posts %}
+        
+            <li><h3><a href="{% url 'blogs:post' post.id %}">{{ post.title }}</a></h3> - {{ post.date_added|date:'M d, Y H:i' }} <big><b>{{ post.owner }}</big></b></li>
+            <div class="card mb-3">
+                <h4 style="color:gray;">Text of post: {{ post.text }}</h4>
+            </div>
+
+        {% empty %}
+            <li><h3>There are no posts have been added yet.</h3></li>
+        {% endfor %}
+    </ul>
+
+{% endblock content %}
+
+
+

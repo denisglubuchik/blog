@@ -1,0 +1,33 @@
+{% extends "blogs/base.html" %}
+
+{% block page_header %}
+    <h1>Posts: {{ post.title }}</h1> - {{ post.date_added|date:'M d, Y H:i' }} <big><b>{{ post.owner }}</big></b>
+{% endblock page_header %}
+
+{% block content %}
+
+    <div class="card mb-3">
+        <h4 style="color:gray;">Text of post: {{ post.text }}</h4>
+    </div>
+    {% if post.owner == user %}
+        <p><a href="{% url 'blogs:edit_post' post.id %}">Edit post</a></p>
+    {% endif %}
+
+    <h3>Comments:</h3>
+
+    {% for comment in comments %}
+        <li>{{ comment.date_added|date:'M d, Y H:i' }} <big><b>{{ comment.owner }}</big></b>
+            <div class="card mb-3">
+                <h5 style="color:gray;">{{ comment.text }}</h5>
+            </div>
+            {% if comment.owner == user %}
+                <p><a href="{% url 'blogs:edit_comment' comment.id %}">Edit comment</a></p>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>There are no comments have been added yet.</li>
+    {% endfor %}
+
+    <a href="{% url 'blogs:new_comment' post.id %}">Add a comment</a>
+
+{% endblock content %}
